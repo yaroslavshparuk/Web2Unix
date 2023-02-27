@@ -25,7 +25,7 @@ public sealed class Email : ValueObject
             throw new CreationException("Email should be not empty");
         }
 
-        if (_emailRegex.IsMatch(email))
+        if (!_emailRegex.IsMatch(email))
         {
             throw new CreationException("Email is not valid");
         }
