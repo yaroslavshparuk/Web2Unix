@@ -1,5 +1,4 @@
-﻿using System.Net.Mail;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using Web2Unix.Domain.Exceptions;
 using Web2Unix.Domain.Primitives;
 namespace Web2Unix.Domain.ValueObjects;
