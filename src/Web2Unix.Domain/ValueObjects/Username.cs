@@ -27,7 +27,7 @@ public sealed class Username : ValueObject
 
         if (username.Length > _maxLength)
         {
-            throw new CreationException("Username's max length is 32");
+            throw new CreationException($"Username's max length is {_maxLength}");
         }
 
         return new Username(username);

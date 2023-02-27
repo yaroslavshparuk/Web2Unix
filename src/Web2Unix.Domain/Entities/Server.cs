@@ -1,12 +1,14 @@
 ﻿using Web2Unix.Domain.Primitives;
+using Web2Unix.Domain.ValueObjects;
+
 namespace Web2Unix.Domain.Entities;
 
 public sealed class Server : Entity
 {
     public Server(
         Guid id,
-        string hostname, 
-        string ipAddress,
+        Hostname hostname,
+        IpAddress ipAddress,
         short port, 
         DateTimeOffset createdAt, 
         DateTimeOffset updatedAt) 
@@ -19,9 +21,9 @@ public sealed class Server : Entity
         UpdatedAt = updatedAt;
     }
 
-    public string Hostname { get; }
+    public Hostname Hostname { get; }
 
-    public string IpAddress { get; }
+    public IpAddress IpAddress { get; }
 
     public short Port { get; }
 
@@ -31,8 +33,8 @@ public sealed class Server : Entity
 
     public static Server Create(
         Guid id,
-        string hostname,
-        string ipAddress,
+        Hostname hostname,
+        IpAddress ipAddress,
         short port,
         DateTimeOffset createdAt,
         DateTimeOffset updatedAt)
