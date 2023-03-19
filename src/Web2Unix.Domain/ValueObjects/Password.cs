@@ -26,7 +26,7 @@ public sealed class Password : ValueObject
             throw new CreationException("Password should be not empty");
         }
 
-        if (password.Length < _maxLength || password.Length > _maxLength)
+        if (password.Length < _minLength || password.Length > _maxLength)
         {
             throw new CreationException($"Password's length should be between {_minLength} and {_maxLength} characters");
         }
