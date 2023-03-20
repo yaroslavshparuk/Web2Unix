@@ -21,7 +21,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
     public async Task<string> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         //var user = await _userRepository.Get(Username.Create(request.username), Password.Create(request.password));
-        var user = User.Create(new Guid(), Username.Create(request.username), Password.Create(request.password), Email.Create("sdfsdf@gmail.com"), DateTime.UtcNow, DateTime.UtcNow);
+        var user = User.Create(new Random().Next(1, 100), Username.Create(request.username), Password.Create(request.password), Email.Create("sdfsdf@gmail.com"), DateTime.UtcNow, DateTime.UtcNow);
         if (user is null)
         {
             throw new InvalidCredentialsException();

@@ -6,7 +6,7 @@ namespace Web2Unix.Domain.Entities;
 public sealed class User : Entity
 {
     internal User(
-        Guid id,
+        int id,
         Username username,
         Password password,
         Email email,
@@ -32,7 +32,7 @@ public sealed class User : Entity
     public DateTimeOffset UpdatedAt { get; }
 
     public static User Create(
-        Guid id,
+        int id,
         Username username,
         Password password,
         Email email,

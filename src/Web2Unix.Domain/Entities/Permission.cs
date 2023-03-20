@@ -4,7 +4,7 @@ namespace Web2Unix.Domain.Entities;
 public sealed class Permission : Entity
 {
     internal Permission(
-        Guid id,
+        int id,
         string name)
         : base(id)
     {
@@ -14,7 +14,7 @@ public sealed class Permission : Entity
     public string Name { get; }
 
     public static Permission Create(
-        Guid id,
+        int id,
         string name)
     {
         return new Permission(id, name);

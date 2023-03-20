@@ -6,7 +6,7 @@ namespace Web2Unix.Domain.Entities;
 public sealed class Server : Entity
 {
     public Server(
-        Guid id,
+        int id,
         Hostname hostname,
         IpAddress ipAddress,
         short port, 
@@ -32,7 +32,7 @@ public sealed class Server : Entity
     public DateTimeOffset UpdatedAt { get; }
 
     public static Server Create(
-        Guid id,
+        int id,
         Hostname hostname,
         IpAddress ipAddress,
         short port,
