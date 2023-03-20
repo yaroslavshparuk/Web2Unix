@@ -5,25 +5,25 @@ using Web2Unix.Application.Users.Login;
 
 namespace Web2Unix.Presentation.Controllers;
 
-[Route("api/login")]
+[Route("api/user")]
 [ApiController]
-public class LoginController : ControllerBase
+public class UserController : ControllerBase
 {
     private readonly ISender _sender;
-    public LoginController(ISender sender)
+    public UserController(ISender sender)
     {
         _sender = sender;
     }
 
     [Authorize]
-    [HttpGet]
-    public async Task<IActionResult> Get([FromBody] LoginRequest request, CancellationToken cancellationToken)
+    [HttpGet("test")]
+    public async Task<IActionResult> Test()
     {
-        return Ok("Test");
+        return Ok("Authorized");
     }
 
-    [HttpPost]
-    public async Task<IActionResult> In(int id, [FromBody]LoginRequest request, CancellationToken cancellationToken)
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody]LoginRequest request, CancellationToken cancellationToken)
     {
         var command = new LoginCommand(request.username, request.password);
         var token = await _sender.Send(command, cancellationToken);
