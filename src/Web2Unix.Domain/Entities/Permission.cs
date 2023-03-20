@@ -1,7 +1,7 @@
 ﻿using Web2Unix.Domain.Primitives;
 namespace Web2Unix.Domain.Entities;
 
-public sealed class Permission : Entity
+public class Permission : Entity
 {
     internal Permission(
         int id,

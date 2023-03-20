@@ -3,13 +3,13 @@ using Web2Unix.Domain.ValueObjects;
 
 namespace Web2Unix.Domain.Entities;
 
-public sealed class Server : Entity
+public class Server : Entity
 {
-    public Server(
+    private Server(
         int id,
         Hostname hostname,
         IpAddress ipAddress,
-        short port, 
+        short port,
         DateTimeOffset createdAt, 
         DateTimeOffset updatedAt) 
         : base(id)

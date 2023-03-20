@@ -6,7 +6,7 @@ public sealed class Hostname : ValueObject
 {
     private const int _maxLength = 200;
 
-    internal Hostname(string value)
+    private Hostname(string value)
     {
         Value = value;
     }

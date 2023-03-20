@@ -3,9 +3,9 @@ using Web2Unix.Domain.ValueObjects;
 
 namespace Web2Unix.Domain.Entities;
 
-public sealed class User : Entity
+public class User : Entity
 {
-    internal User(
+    private User(
         int id,
         Username username,
         Password password,
