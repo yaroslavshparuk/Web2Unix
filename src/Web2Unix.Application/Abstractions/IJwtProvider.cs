@@ -4,5 +4,5 @@ namespace Web2Unix.Application.Abstractions;
 
 public interface IJwtProvider
 {
-    string Generate(User user);
+    string Generate(WebUser user, WebRole role);
 }

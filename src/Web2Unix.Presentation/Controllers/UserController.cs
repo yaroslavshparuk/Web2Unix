@@ -15,7 +15,7 @@ public class UserController : ControllerBase
         _sender = sender;
     }
 
-    [Authorize]
+    [Authorize(Roles = "SuperAdmin")]
     [HttpGet("test")]
     public async Task<IActionResult> Test()
     {

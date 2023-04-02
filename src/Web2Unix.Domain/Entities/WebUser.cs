@@ -3,9 +3,9 @@ using Web2Unix.Domain.ValueObjects;
 
 namespace Web2Unix.Domain.Entities;
 
-public class User : Entity
+public class WebUser : Entity
 {
-    private User(
+    private WebUser(
         int id,
         Username username,
         Password password,
@@ -31,7 +31,9 @@ public class User : Entity
 
     public DateTimeOffset UpdatedAt { get; }
 
-    public static User Create(
+    public ICollection<WebUserRole> WebUserRoles { get; set; }
+
+    public static WebUser Create(
         int id,
         Username username,
         Password password,
@@ -39,6 +41,6 @@ public class User : Entity
         DateTimeOffset createdAt,
         DateTimeOffset updatedAt)
     {
-        return new User(id, username, password, email, createdAt, updatedAt);
+        return new WebUser(id, username, password, email, createdAt, updatedAt);
     }
 }

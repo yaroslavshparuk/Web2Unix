@@ -9,24 +9,31 @@ namespace Web2Unix.Application.Users.Login;
 
 public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
 {
-    private readonly IUserRepository _userRepository;
     private readonly IJwtProvider _jwtProvider;
+    private readonly IWebUserRepository _webUserRepository;
+    private readonly IWebUserRoleRepository _webUserRoleRepository;
 
-    public LoginCommandHandler(IJwtProvider jwtProvider)
+    public LoginCommandHandler(
+        IJwtProvider jwtProvider, 
+        IWebUserRepository webUserRepository,
+        IWebUserRoleRepository webUserRoleRepository)
     {
-        //_userRepository = userRepository;
         _jwtProvider = jwtProvider;
+        _webUserRepository = webUserRepository;
+        _webUserRoleRepository = webUserRoleRepository;
     }
 
     public async Task<string> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        //var user = await _userRepository.Get(Username.Create(request.username), Password.Create(request.password));
-        var user = User.Create(new Random().Next(1, 100), Username.Create(request.username), Password.Create(request.password), Email.Create("sdfsdf@gmail.com"), DateTime.UtcNow, DateTime.UtcNow);
-        if (user is null)
+        var user = await _webUserRepository.Get(Username.Create(request.username));
+        //var user = WebUser.Create(new Random().Next(1, 100), Username.Create(request.username), Password.Create(request.password), Email.Create("sdfsdf@gmail.com"), DateTime.UtcNow, DateTime.UtcNow);
+        if (user is null || user.Password.Value != request.password)
         {
             throw new InvalidCredentialsException();
         }
 
-        return _jwtProvider.Generate(user);
+        var role = await _webUserRoleRepository.Get(user);
+
+        return _jwtProvider.Generate(user, role.WebRole);
     }
 }

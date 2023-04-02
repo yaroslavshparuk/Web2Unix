@@ -17,11 +17,12 @@ public class JwtProvider : IJwtProvider
         _options = options;
     }
 
-    public string Generate(User user)
+    public string Generate(WebUser user, WebRole role)
     {
         var claims = new Claim[] {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, user.Email.Value.ToString()),
+            new Claim(ClaimTypes.Role, role.Name),
         };
 
         var signCreds = new SigningCredentials(
