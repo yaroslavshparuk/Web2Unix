@@ -15,13 +15,19 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Web2Unix.App
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
 builder.Services.ConfigureOptions<JwtConfiguration>();
 builder.Services.ConfigureOptions<JwtBearerConfiguration>();
+builder.Services.AddCors(o => o.AddPolicy("Dev", builder =>
+{
+    builder.WithOrigins("*")
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+}));
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
     app.UseHsts();
 }
-
+app.UseCors("Dev");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
