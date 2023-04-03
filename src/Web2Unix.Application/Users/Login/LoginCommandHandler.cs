@@ -12,22 +12,24 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
     private readonly IJwtProvider _jwtProvider;
     private readonly IWebUserRepository _webUserRepository;
     private readonly IWebUserRoleRepository _webUserRoleRepository;
+    private readonly IPasswordHasher _passwordHasher;
 
     public LoginCommandHandler(
         IJwtProvider jwtProvider, 
         IWebUserRepository webUserRepository,
-        IWebUserRoleRepository webUserRoleRepository)
+        IWebUserRoleRepository webUserRoleRepository,
+        IPasswordHasher passwordHasher)
     {
         _jwtProvider = jwtProvider;
         _webUserRepository = webUserRepository;
         _webUserRoleRepository = webUserRoleRepository;
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<string> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var user = await _webUserRepository.Get(Username.Create(request.username));
-        //var user = WebUser.Create(new Random().Next(1, 100), Username.Create(request.username), Password.Create(request.password), Email.Create("sdfsdf@gmail.com"), DateTime.UtcNow, DateTime.UtcNow);
-        if (user is null || user.Password.Value != request.password)
+        if (user is null || !(await _passwordHasher.Verify(user.Id, request.password)))
         {
             throw new InvalidCredentialsException();
         }

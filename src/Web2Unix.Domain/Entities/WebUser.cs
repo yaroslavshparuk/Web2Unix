@@ -8,14 +8,16 @@ public class WebUser : Entity
     private WebUser(
         int id,
         Username username,
-        Password password,
+        byte[] passwordHash,
+        byte[] passwordSalt,
         Email email,
         DateTimeOffset createdAt,
         DateTimeOffset updatedAt)
         : base(id)
     {
         Username = username;
-        Password = password;
+        PasswordHash = passwordHash;
+        PasswordSalt = passwordSalt;
         Email = email;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
@@ -23,7 +25,9 @@ public class WebUser : Entity
 
     public Username Username { get; }
 
-    public Password Password { get; }
+    public byte[] PasswordHash { get; set; }
+
+    public byte[] PasswordSalt { get; set; }
 
     public Email Email { get; }
 
@@ -36,11 +40,12 @@ public class WebUser : Entity
     public static WebUser Create(
         int id,
         Username username,
-        Password password,
+        byte[] passwordHash,
+        byte[] passwordSalt,
         Email email,
         DateTimeOffset createdAt,
         DateTimeOffset updatedAt)
     {
-        return new WebUser(id, username, password, email, createdAt, updatedAt);
+        return new WebUser(id, username, passwordHash, passwordSalt, email, createdAt, updatedAt);
     }
 }

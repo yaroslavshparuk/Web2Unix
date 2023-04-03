@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<IJwtProvider, JwtProvider>();
 builder.Services.AddTransient<IWebUserRepository, WebUserRepository>();
 builder.Services.AddTransient<IWebUserRoleRepository, WebUserRoleRepository>();
+builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers().AddApplicationPart(Web2Unix.Presentation.AssemblyReference.Assembly);
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Web2Unix.Application.AssemblyReference.Assembly));

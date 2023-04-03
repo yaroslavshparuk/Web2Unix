@@ -12,7 +12,7 @@ using Web2Unix.Infrastructure;
 namespace Web2Unix.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230402122608_init")]
+    [Migration("20230403072509_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -104,9 +104,13 @@ namespace Web2Unix.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
+                    b.Property<byte[]>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("datetimeoffset");
@@ -123,10 +127,11 @@ namespace Web2Unix.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTimeOffset(new DateTime(2023, 4, 2, 12, 26, 8, 34, DateTimeKind.Unspecified).AddTicks(9444), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2023, 4, 3, 7, 25, 9, 145, DateTimeKind.Unspecified).AddTicks(6179), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "shparuk1996@gmail.com",
-                            Password = "temppass",
-                            UpdatedAt = new DateTimeOffset(new DateTime(2023, 4, 2, 12, 26, 8, 34, DateTimeKind.Unspecified).AddTicks(9457), new TimeSpan(0, 0, 0, 0, 0)),
+                            PasswordHash = new byte[] { 0 },
+                            PasswordSalt = new byte[] { 0 },
+                            UpdatedAt = new DateTimeOffset(new DateTime(2023, 4, 3, 7, 25, 9, 145, DateTimeKind.Unspecified).AddTicks(6189), new TimeSpan(0, 0, 0, 0, 0)),
                             Username = "yaroslav"
                         });
                 });

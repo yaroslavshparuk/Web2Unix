@@ -50,7 +50,8 @@ namespace Web2Unix.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    PasswordSalt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
@@ -96,8 +97,8 @@ namespace Web2Unix.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "WebUsers",
-                columns: new[] { "Id", "CreatedAt", "Email", "Password", "UpdatedAt", "Username" },
-                values: new object[] { 1, new DateTimeOffset(new DateTime(2023, 4, 2, 12, 26, 8, 34, DateTimeKind.Unspecified).AddTicks(9444), new TimeSpan(0, 0, 0, 0, 0)), "shparuk1996@gmail.com", "temppass", new DateTimeOffset(new DateTime(2023, 4, 2, 12, 26, 8, 34, DateTimeKind.Unspecified).AddTicks(9457), new TimeSpan(0, 0, 0, 0, 0)), "yaroslav" });
+                columns: new[] { "Id", "CreatedAt", "Email", "PasswordHash", "PasswordSalt", "UpdatedAt", "Username" },
+                values: new object[] { 1, new DateTimeOffset(new DateTime(2023, 4, 3, 7, 25, 9, 145, DateTimeKind.Unspecified).AddTicks(6179), new TimeSpan(0, 0, 0, 0, 0)), "shparuk1996@gmail.com", new byte[] { 0 }, new byte[] { 0 }, new DateTimeOffset(new DateTime(2023, 4, 3, 7, 25, 9, 145, DateTimeKind.Unspecified).AddTicks(6189), new TimeSpan(0, 0, 0, 0, 0)), "yaroslav" });
 
             migrationBuilder.InsertData(
                 table: "WebUserRoles",

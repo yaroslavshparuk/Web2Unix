@@ -15,7 +15,7 @@ export class AuthService {
     return this.http.post('https://localhost:7123/api/user/login', user, {responseType: 'text'} );
   }
 
-  // public test(): Observable<any>{
-  //   return this.http.post( this.baseUrl + 'api/user/test', user, {responseType: 'text'} );
-  // }
+  public test(){
+    return this.http.get('https://localhost:7123/api/user/test');
+  }
 }

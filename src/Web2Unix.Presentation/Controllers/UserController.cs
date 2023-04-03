@@ -10,6 +10,7 @@ namespace Web2Unix.Presentation.Controllers;
 public class UserController : ControllerBase
 {
     private readonly ISender _sender;
+
     public UserController(ISender sender)
     {
         _sender = sender;

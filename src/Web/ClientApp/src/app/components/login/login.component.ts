@@ -20,10 +20,10 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  // test(user: User){
-  //   this.authService.login(user).subscribe(result =>{
-  //     console.log(result)
-  //   });
-  // }
+  test(){
+    this.authService.test().subscribe(result =>{
+      console.log(result)
+    });
+  }
 
 }
