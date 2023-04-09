@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Renci.SshNet;
+using System.Net.Sockets;
 using Web.Configurations;
 using Web2Unix.Application.Abstractions;
 using Web2Unix.Application.Data;
@@ -12,6 +14,7 @@ builder.Services.AddTransient<IJwtProvider, JwtProvider>();
 builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 builder.Services.AddTransient<IUnixClient, UnixClient>();
+builder.Services.AddSingleton<IActiveUnixConnections<SshClient>, InMemoryActiveUnixConnections<SshClient>>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers().AddApplicationPart(Web2Unix.Presentation.AssemblyReference.Assembly);
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Web2Unix.Application.AssemblyReference.Assembly));
@@ -32,7 +35,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHsts();
 }
-app.UseCors("Dev");
+app.UseCors("Dev"); 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
