@@ -17,8 +17,10 @@ export class ServersComponent implements OnInit {
     this.servers$ = this.serverService.getAll().pipe(shareReplay());
   }
 
-  connect(server: Server): void {
-    this.serverService.connect(server).subscribe(x => console.log(x));
-    this.router.navigate(['/terminal']);
+  connect(serverId: number | undefined): void {
+    //this.serverService.connect(server).subscribe(x => console.log(x));
+    console.log(serverId)
+    this.router.navigate(['/terminal'], { queryParams: { serverId: serverId } });
+
   }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Web2Unix.Application.Abstractions;
+using Web2Unix.Application.Servers.Command;
 using Web2Unix.Infrastructure.Connection;
 
 namespace Web2Unix.Infrastructure.Hubs;
@@ -18,10 +19,9 @@ public class TerminalHub : Hub
         await Clients.All.SendAsync("output", output);
     }
 
-    public async Task SendInput(string input)
+    public async Task SendInput(CommandRequest input)
     {
-        // handle the input here
-        // _unixClient.Connect();
-        await Clients.All.SendAsync("sendInput", input);
+        await _unixClient.Run(input);
+        //await Clients.All.SendAsync("sendInput", input);
     }
 }

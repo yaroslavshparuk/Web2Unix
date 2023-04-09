@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Web2Unix.Application.Servers.Connect;
 using Web2Unix.Application.Servers.GetAll;
 using Web2Unix.Application.Users.Login;
 
@@ -31,12 +30,5 @@ public class ServerController : ControllerBase
         }
         );
         return Ok(servers);
-    }
-    
-    [HttpGet("connect/{userId}/{serverId}")]
-    public async Task<IActionResult> Connect([FromRoute] ConnectRequest request,CancellationToken cancellationToken)
-    {
-        await _sender.Send(new ConnectCommand(request.userId, request.serverId), cancellationToken);
-        return Ok();
     }
 }

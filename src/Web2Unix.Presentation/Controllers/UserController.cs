@@ -16,13 +16,6 @@ public class UserController : ControllerBase
         _sender = sender;
     }
 
-    [Authorize(Roles = "SuperAdmin,Admin")]
-    [HttpGet("test")]
-    public async Task<IActionResult> Test()
-    {
-        return Ok("Authorized");
-    }
-
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody]LoginRequest request, CancellationToken cancellationToken)
     {

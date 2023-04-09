@@ -16,10 +16,6 @@ export class AuthService {
     return this.http.post(`${BACKEND_URL_BASE}/api/user/login`, user, {responseType: 'text'} );
   }
 
-  public test(){
-    return this.http.get(`${BACKEND_URL_BASE}/api/user/test`);
-  }
-
   public isLoggedIn() : boolean {
     const token = localStorage.getItem('authToken');
     return !!token && !this.jwtHelper.isTokenExpired(token);

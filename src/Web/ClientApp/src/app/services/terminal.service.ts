@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { Observable, from } from 'rxjs';
 import { BACKEND_URL_BASE } from 'src/config';
+import { Command } from '../models/command';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +27,10 @@ export class TerminalService {
     });
   }
 
-  public sendCommand(command: string) {
+  public sendCommand(command: Command) {
     this.connection.send('sendInput', command)
       .then(() => console.log(`Sent command: ${command}`))
       .catch((err) => console.error(err));
-      //return this.connection.invoke('sendInput', command).then();
   }
 
 }

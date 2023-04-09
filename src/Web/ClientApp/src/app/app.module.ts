@@ -14,6 +14,7 @@ import { AuthService } from './services/auth.service';
 import { ServerService } from './services/server.service';
 import { TerminalService } from './services/terminal.service';
 import { TerminalComponent } from './components/terminal/terminal.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { TerminalComponent } from './components/terminal/terminal.component';
     ServerService,
     AuthService,
     TerminalService,
+    UserService,
     {provide: HTTP_INTERCEPTORS, useClass: AuthIntercoptor, multi: true},
   ],
   bootstrap: [AppComponent]
