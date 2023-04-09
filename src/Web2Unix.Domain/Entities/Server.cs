@@ -7,21 +7,21 @@ public class Server : Entity
 {
     private Server(
         int id,
-        Hostname hostname,
+        ServerName serverName,
         IpAddress ipAddress,
         short port,
         DateTimeOffset createdAt, 
         DateTimeOffset updatedAt) 
         : base(id)
     {
-        Hostname = hostname;
+        ServerName = serverName;
         IpAddress = ipAddress;
         Port = port;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
     }
 
-    public Hostname Hostname { get; }
+    public ServerName ServerName { get; }
 
     public IpAddress IpAddress { get; }
 
@@ -33,7 +33,7 @@ public class Server : Entity
 
     public static Server Create(
         int id,
-        Hostname hostname,
+        ServerName hostname,
         IpAddress ipAddress,
         short port,
         DateTimeOffset createdAt,

@@ -1,8 +1,8 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Web2Unix.Application.Abstractions;
-using Web2Unix.Domain.Entities;
+using Web2Unix.Application.Data;
 using Web2Unix.Domain.Exceptions;
-using Web2Unix.Domain.Repositories;
 using Web2Unix.Domain.ValueObjects;
 
 namespace Web2Unix.Application.Users.Login;
@@ -10,31 +10,31 @@ namespace Web2Unix.Application.Users.Login;
 public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
 {
     private readonly IJwtProvider _jwtProvider;
-    private readonly IWebUserRepository _webUserRepository;
-    private readonly IWebUserRoleRepository _webUserRoleRepository;
+    private readonly IApplicationDbContext _context;
     private readonly IPasswordHasher _passwordHasher;
 
     public LoginCommandHandler(
-        IJwtProvider jwtProvider, 
-        IWebUserRepository webUserRepository,
-        IWebUserRoleRepository webUserRoleRepository,
+        IJwtProvider jwtProvider,
+        IApplicationDbContext context,
         IPasswordHasher passwordHasher)
     {
         _jwtProvider = jwtProvider;
-        _webUserRepository = webUserRepository;
-        _webUserRoleRepository = webUserRoleRepository;
+        _context = context;
         _passwordHasher = passwordHasher;
     }
 
     public async Task<string> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
-        var user = await _webUserRepository.Get(Username.Create(request.username));
-        if (user is null || !(await _passwordHasher.Verify(user.Id, request.password)))
+        var user = await _context.WebUsers.FirstOrDefaultAsync(x => x.Username == Username.Create(request.username));
+        if (user is null || !await _passwordHasher.Verify(user.Id, request.password))
         {
-            throw new InvalidCredentialsException();
+            throw new InvalidCredentialsException(); // TO DO: intercept it with middleware
         }
 
-        var role = await _webUserRoleRepository.Get(user);
+        var role = await _context.WebUserRoles
+                .Include(x => x.WebRole)
+                .Include(x => x.WebUser)
+                .FirstOrDefaultAsync(x => x.WebUserId == user.Id);
 
         return _jwtProvider.Generate(user, role.WebRole);
     }

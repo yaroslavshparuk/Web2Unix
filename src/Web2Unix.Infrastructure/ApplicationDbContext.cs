@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Web2Unix.Application.Data;
 using Web2Unix.Domain.Entities;
 
 namespace Web2Unix.Infrastructure;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     public DbSet<WebRole> WebRoles { get; set; }
 

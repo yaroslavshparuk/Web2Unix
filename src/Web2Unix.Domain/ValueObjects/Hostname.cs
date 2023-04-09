@@ -2,11 +2,11 @@
 using Web2Unix.Domain.Primitives;
 namespace Web2Unix.Domain.ValueObjects;
 
-public sealed class Hostname : ValueObject
+public sealed class ServerName : ValueObject
 {
     private const int _maxLength = 200;
 
-    private Hostname(string value)
+    private ServerName(string value)
     {
         Value = value;
     }
@@ -18,18 +18,18 @@ public sealed class Hostname : ValueObject
         yield return Value;
     }
 
-    public static Hostname Create(string hostname)
+    public static ServerName Create(string serverName)
     {
-        if (string.IsNullOrEmpty(hostname))
+        if (string.IsNullOrEmpty(serverName))
         {
-            throw new CreationException("Hostname should be not empty");
+            throw new CreationException("Server name should be not empty");
         }
 
-        if (hostname.Length > _maxLength)
+        if (serverName.Length > _maxLength)
         {
-            throw new CreationException($"Hostname's max length is {_maxLength}");
+            throw new CreationException($"Server name's max length is {_maxLength}");
         }
 
-        return new Hostname(hostname);
+        return new ServerName(serverName);
     }
 }

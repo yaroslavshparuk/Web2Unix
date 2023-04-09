@@ -3,23 +3,23 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { HomeComponent } from './components/home/home.component';
-import { CounterComponent } from './components/counter/counter.component';
-import { FetchDataComponent } from './components/fetch-data/fetch-data.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthIntercoptor } from './interceptros/auth-interceptor';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { ServersComponent } from './components/servers/servers.component';
+import { AuthService } from './services/auth.service';
+import { ServerService } from './services/server.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
-    LoginComponent
+    LoginComponent,
+    ServersComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -27,12 +27,21 @@ import { AuthIntercoptor } from './interceptros/auth-interceptor';
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'login', component: LoginComponent },
-    ])
+      { path: 'servers', component: ServersComponent },
+    ]),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('authToken')
+      }
+    }),
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthIntercoptor, multi: true}],
+  providers: [
+    JwtHelperService,
+    ServerService,
+    AuthService,
+    {provide: HTTP_INTERCEPTORS, useClass: AuthIntercoptor, multi: true},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

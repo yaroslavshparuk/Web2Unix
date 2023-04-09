@@ -2,20 +2,30 @@ import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { BACKEND_URL_BASE } from 'src/config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
 
   public login(user: User): Observable<string>{
-    console.log(user)
-    return this.http.post('https://localhost:7123/api/user/login', user, {responseType: 'text'} );
+    return this.http.post(`${BACKEND_URL_BASE}/api/user/login`, user, {responseType: 'text'} );
   }
 
   public test(){
-    return this.http.get('https://localhost:7123/api/user/test');
+    return this.http.get(`${BACKEND_URL_BASE}/api/user/test`);
+  }
+
+  public isLoggedIn() : boolean {
+    const token = localStorage.getItem('authToken');
+    return !!token && !this.jwtHelper.isTokenExpired(token);
+  }
+
+  public logout() : void{
+    localStorage.removeItem('authToken');
   }
 }

@@ -1,10 +1,11 @@
-<div>
-  Name:
-  <input [(ngModel)]="user.username" placeholder="Name">
+<div class="container">
+  <div class="form-group">
+    <label for="username">Name:</label>
+    <input type="text" id="username" [(ngModel)]="user.username" class="form-control" placeholder="Name">
+  </div>
+  <div class="form-group">
+    <label for="password">Password:</label>
+    <input type="password" id="password" [(ngModel)]="user.password" class="form-control" placeholder="Password">
+  </div>
+  <button class="btn btn-primary btn-block" (click)="login(user)">Log in</button>
 </div>
-<div>
-  Password:
-  <input [(ngModel)]="user.password" placeholder="Password">
-</div>
-<button (click)="login(user)">Log in</button>
-<button (click)="test()">Test</button>

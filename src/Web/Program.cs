@@ -1,15 +1,16 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Web.Configurations;
 using Web2Unix.Application.Abstractions;
-using Web2Unix.Domain.Repositories;
+using Web2Unix.Application.Data;
+using Web2Unix.Infrastructure;
 using Web2Unix.Infrastructure.Authentication;
-using Web2Unix.Infrastructure.Repositories;
+using Web2Unix.Infrastructure.Connection;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<IJwtProvider, JwtProvider>();
-builder.Services.AddTransient<IWebUserRepository, WebUserRepository>();
-builder.Services.AddTransient<IWebUserRoleRepository, WebUserRoleRepository>();
 builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+builder.Services.AddTransient<IUnixClient, UnixClient>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers().AddApplicationPart(Web2Unix.Presentation.AssemblyReference.Assembly);
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Web2Unix.Application.AssemblyReference.Assembly));
