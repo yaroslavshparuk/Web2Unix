@@ -5,6 +5,7 @@ using Web2Unix.Application.Data;
 using Web2Unix.Infrastructure;
 using Web2Unix.Infrastructure.Authentication;
 using Web2Unix.Infrastructure.Connection;
+using Web2Unix.Infrastructure.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<IJwtProvider, JwtProvider>();
@@ -17,11 +18,13 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Web2Unix.App
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer();
 builder.Services.ConfigureOptions<JwtConfiguration>();
 builder.Services.ConfigureOptions<JwtBearerConfiguration>();
+builder.Services.AddSignalR();
 builder.Services.AddCors(o => o.AddPolicy("Dev", builder =>
 {
-    builder.WithOrigins("*")
+    builder.WithOrigins("https://localhost:7123", "https://localhost:44456")
            .AllowAnyMethod()
-           .AllowAnyHeader();
+           .AllowAnyHeader()
+           .AllowCredentials();
 }));
 var app = builder.Build();
 
@@ -36,7 +39,10 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<TerminalHub>("/terminalHub");
+});
 app.MapFallbackToFile("index.html");
 
 app.Run();

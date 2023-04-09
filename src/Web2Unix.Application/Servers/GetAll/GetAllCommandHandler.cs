@@ -5,7 +5,7 @@ using Web2Unix.Domain.Entities;
 
 namespace Web2Unix.Application.Servers.GetAll;
 
-public class ConnectCommandHandler : IRequestHandler<ConnectCommand, ICollection<Server>>
+public class ConnectCommandHandler : IRequestHandler<GetAllCommand, ICollection<Server>>
 {
     private readonly IApplicationDbContext _context;
 
@@ -14,7 +14,7 @@ public class ConnectCommandHandler : IRequestHandler<ConnectCommand, ICollection
         _context = context;
     }
 
-    public async Task<ICollection<Server>> Handle(ConnectCommand request, CancellationToken cancellationToken)
+    public async Task<ICollection<Server>> Handle(GetAllCommand request, CancellationToken cancellationToken)
     {
         return await _context.Servers.ToArrayAsync(cancellationToken);
     }
