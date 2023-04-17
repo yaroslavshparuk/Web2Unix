@@ -12,7 +12,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
 
-  public login(user: User): Observable<string>{
+  public login(user: User): Observable<string> {
     return this.http.post(`${BACKEND_URL_BASE}/api/user/login`, user, {responseType: 'text'} );
   }
 

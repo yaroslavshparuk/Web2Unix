@@ -16,8 +16,8 @@ export class ServerService {
     return this.http.get<Server[]>(`${BACKEND_URL_BASE}/api/server/getAll`);
   }
 
-  connect(server: Server){
+  connect(serverId: number) : Observable<string> {
     const userId = this.jwtHelper.decodeToken(localStorage.getItem('authToken') ?? "").sub;
-    return this.http.get(`${BACKEND_URL_BASE}/api/server/connect/${userId}/${server.id}`);
+    return this.http.post(`${BACKEND_URL_BASE}/api/server/connect`, {userId: userId, serverId: serverId }, {responseType: 'text'} );
   }
 }

@@ -21,7 +21,7 @@ public class TerminalHub : Hub
 
     public async Task SendInput(CommandRequest input)
     {
-        await _unixClient.Run(input);
+        //await _unixClient.Execute(input);
         //await Clients.All.SendAsync("sendInput", input);
     }
 }

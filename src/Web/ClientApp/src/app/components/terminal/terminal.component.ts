@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TerminalService } from 'src/app/services/terminal.service';
-import { filter } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { Command } from 'src/app/models/command';
 import { UserService } from 'src/app/services/user.service';
+import { ServerService } from 'src/app/services/server.service';
 
 @Component({
   selector: 'terminal',
@@ -17,24 +18,24 @@ export class TerminalComponent implements OnInit {
   constructor(
     private terminalService: TerminalService,
     private route: ActivatedRoute,
+    private serverService: ServerService,
     private userService: UserService) { }
 
   ngOnInit(): void {
-    this.terminalService.connect().subscribe(output => {
-      this.outputs.push(output);
-    });
+    // this.terminalService.connect().subscribe(output => {
+    //   this.outputs.push(output);
+    // });
     this.serverId = Number(this.route.snapshot.queryParamMap.get('serverId'))
-    console.log(this.serverId)
+    this.serverService.connect(this.serverId).pipe(take(1)).subscribe(x => this.outputs.push(x));
   }
 
   sendConsoleInput() {
     if (this.consoleInput.trim()) {
-      this.outputs.push(`$ ${this.consoleInput}`);
       const command = new Command();
       command.userId = this.userService.getCurrentUserId();
       command.serverId = this.serverId;
       command.commandValue = this.consoleInput;
-      this.terminalService.sendCommand(command);
+      this.terminalService.sendCommand(command).pipe(take(1)).subscribe(x => this.outputs.push(x));
       this.consoleInput = '';
     }
   }

@@ -5,11 +5,11 @@ using Web2Unix.Domain.Entities;
 
 namespace Web2Unix.Application.Servers.GetAll;
 
-public class ConnectCommandHandler : IRequestHandler<GetAllCommand, ICollection<Server>>
+public class GetAllCommandHandler : IRequestHandler<GetAllCommand, ICollection<Server>>
 {
     private readonly IApplicationDbContext _context;
 
-    public ConnectCommandHandler(IApplicationDbContext context)
+    public GetAllCommandHandler(IApplicationDbContext context)
     {
         _context = context;
     }
