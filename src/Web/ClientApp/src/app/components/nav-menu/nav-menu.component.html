@@ -4,10 +4,10 @@
       <a class="navbar-brand" [routerLink]="['/']">Web</a>
       <a *ngIf="authService.isLoggedIn()" class="navbar-brand" [routerLink]="['/servers']">Servers</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
-        aria-label="Toggle navigation" [attr.aria-expanded]="isExpanded" (click)="toggle()">
+        aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end" [ngClass]="{ show: isExpanded }">
+      <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
         <ul class="navbar-nav flex-grow">
           <li class="nav-item" [routerLinkActive]="['link-active']" *ngIf="!authService.isLoggedIn(); else notLoggedIn">
             <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>

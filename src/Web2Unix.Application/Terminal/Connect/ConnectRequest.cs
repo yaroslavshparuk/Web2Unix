@@ -1,3 +1,3 @@
-﻿namespace Web2Unix.Application.Servers.Connect;
+﻿namespace Web2Unix.Application.Terminal.Connect;
 
 public record ConnectRequest(int userId, int serverId);

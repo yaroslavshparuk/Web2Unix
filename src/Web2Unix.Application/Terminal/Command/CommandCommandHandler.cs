@@ -1,15 +1,13 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Web2Unix.Application.Abstractions;
-using Web2Unix.Application.Servers.Connect;
 
-namespace Web2Unix.Application.Servers.Command;
+namespace Web2Unix.Application.Terminal.Command;
 
 public class CommandCommandHandler : IRequestHandler<CommandCommand, string>
 {
-    private readonly IUnixClient _client;
+    private readonly IUnixTerminal _client;
 
-    public CommandCommandHandler(IUnixClient client)
+    public CommandCommandHandler(IUnixTerminal client)
     {
         _client = client;
     }

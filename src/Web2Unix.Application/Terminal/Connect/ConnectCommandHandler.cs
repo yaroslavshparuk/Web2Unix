@@ -1,13 +1,13 @@
 ﻿using MediatR;
 using Web2Unix.Application.Abstractions;
 
-namespace Web2Unix.Application.Servers.Connect;
+namespace Web2Unix.Application.Terminal.Connect;
 
 public class ConnectCommandHandler : IRequestHandler<ConnectCommand, string>
 {
-    private readonly IUnixClient _client;
+    private readonly IUnixTerminal _client;
 
-    public ConnectCommandHandler(IUnixClient client)
+    public ConnectCommandHandler(IUnixTerminal client)
     {
         _client = client;
     }

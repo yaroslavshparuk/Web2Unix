@@ -10,14 +10,9 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class ServerService {
 
-  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
+  constructor(private http: HttpClient) { }
 
   getAll(): Observable<Server[]> {
     return this.http.get<Server[]>(`${BACKEND_URL_BASE}/api/server/getAll`);
-  }
-
-  connect(serverId: number) : Observable<string> {
-    const userId = this.jwtHelper.decodeToken(localStorage.getItem('authToken') ?? "").sub;
-    return this.http.post(`${BACKEND_URL_BASE}/api/server/connect`, {userId: userId, serverId: serverId }, {responseType: 'text'} );
   }
 }

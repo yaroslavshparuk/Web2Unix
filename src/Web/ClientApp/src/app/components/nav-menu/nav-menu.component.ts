@@ -8,13 +8,4 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class NavMenuComponent {
   constructor(public authService: AuthService) { }
-  isExpanded = false;
-
-  collapse() {
-    this.isExpanded = false;
-  }
-
-  toggle() {
-    this.isExpanded = !this.isExpanded;
-  }
 }

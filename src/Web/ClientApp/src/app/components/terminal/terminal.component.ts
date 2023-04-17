@@ -1,32 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TerminalService } from 'src/app/services/terminal.service';
-import { filter, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { Command } from 'src/app/models/command';
 import { UserService } from 'src/app/services/user.service';
-import { ServerService } from 'src/app/services/server.service';
 
 @Component({
   selector: 'terminal',
   templateUrl: './terminal.component.html',
   styleUrls: ['./terminal.component.css']
 })
-export class TerminalComponent implements OnInit {
+export class TerminalComponent implements OnInit, OnDestroy {
   outputs: string[] = [];
   consoleInput = '';
-  serverId: number | undefined;
+  serverId: number = 0;
   constructor(
     private terminalService: TerminalService,
     private route: ActivatedRoute,
-    private serverService: ServerService,
+    private router: Router,
     private userService: UserService) { }
 
+  ngOnDestroy(): void {
+    this.internalClose();
+  }
+
   ngOnInit(): void {
-    // this.terminalService.connect().subscribe(output => {
-    //   this.outputs.push(output);
-    // });
     this.serverId = Number(this.route.snapshot.queryParamMap.get('serverId'))
-    this.serverService.connect(this.serverId).pipe(take(1)).subscribe(x => this.outputs.push(x));
+    this.terminalService.connect(this.serverId).pipe(take(1)).subscribe(x => this.outputs.push(x));
   }
 
   sendConsoleInput() {
@@ -38,5 +38,14 @@ export class TerminalComponent implements OnInit {
       this.terminalService.sendCommand(command).pipe(take(1)).subscribe(x => this.outputs.push(x));
       this.consoleInput = '';
     }
+  }
+
+  close(){
+    this.internalClose();
+    this.router.navigate(['/servers']);
+  }
+
+  private internalClose() {
+    this.terminalService.disconnect(this.serverId).pipe(take(1)).subscribe();
   }
 }

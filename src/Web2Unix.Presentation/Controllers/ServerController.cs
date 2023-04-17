@@ -1,8 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Web2Unix.Application.Servers.Command;
-using Web2Unix.Application.Servers.Connect;
 using Web2Unix.Application.Servers.GetAll;
 
 namespace Web2Unix.Presentation.Controllers;
@@ -31,17 +29,5 @@ public class ServerController : ControllerBase
         }
         );
         return Ok(servers);
-    }
-
-    [HttpPost("connect")]
-    public async Task<IActionResult> Connect([FromBody]ConnectRequest connectRequest, CancellationToken cancellationToken)
-    {
-        return Ok(await _sender.Send(new ConnectCommand(connectRequest.userId, connectRequest.serverId), cancellationToken));
-    }
-
-    [HttpPost("execute")]
-    public async Task<IActionResult> Execute([FromBody] CommandRequest commandRequest, CancellationToken cancellationToken)
-    {
-        return Ok(await _sender.Send(new CommandCommand(commandRequest.userId, commandRequest.serverId, commandRequest.commandValue), cancellationToken));
     }
 }

@@ -6,14 +6,13 @@ using Web2Unix.Application.Abstractions;
 using Web2Unix.Application.Data;
 using Web2Unix.Infrastructure;
 using Web2Unix.Infrastructure.Authentication;
-using Web2Unix.Infrastructure.Connection;
-using Web2Unix.Infrastructure.Hubs;
+using Web2Unix.Infrastructure.ConnectionToUnix;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<IJwtProvider, JwtProvider>();
 builder.Services.AddTransient<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-builder.Services.AddTransient<IUnixClient, UnixClient>();
+builder.Services.AddTransient<IUnixTerminal, UnixTerminal>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddControllers().AddApplicationPart(Web2Unix.Presentation.AssemblyReference.Assembly);
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Web2Unix.Application.AssemblyReference.Assembly));
@@ -41,10 +40,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapHub<TerminalHub>("/terminalHub");
-});
 app.MapFallbackToFile("index.html");
 
 app.Run();

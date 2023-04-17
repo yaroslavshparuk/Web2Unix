@@ -1,9 +1,8 @@
-<div class="output" *ngFor="let output of outputs">{{ output }}</div>
-<div class="console">
-  <div class="console-body">
-    <div class="console-input">
-      <span class="console-prompt">$ </span>
-      <input type="text" [(ngModel)]="consoleInput" (keyup.enter)="sendConsoleInput()" autofocus>
-    </div>
+<div class="terminal">
+  <button class="close-btn" (click)="close()">Close</button>
+  <div class="output" *ngFor="let output of outputs">{{ output }}</div>
+  <span class="prompt">$</span>
+  <div class="input-container">
+    <input type="text" class="input" [(ngModel)]="consoleInput" (keyup.enter)="sendConsoleInput()" autofocus />
   </div>
 </div>
