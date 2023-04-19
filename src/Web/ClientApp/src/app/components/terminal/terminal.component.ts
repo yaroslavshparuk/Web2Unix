@@ -10,7 +10,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './terminal.component.html',
   styleUrls: ['./terminal.component.css']
 })
-export class TerminalComponent implements OnInit, OnDestroy {
+export class TerminalComponent implements OnInit {
   outputs: string[] = [];
   consoleInput = '';
   serverId: number = 0;
@@ -19,10 +19,6 @@ export class TerminalComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService) { }
-
-  ngOnDestroy(): void {
-    this.internalClose();
-  }
 
   ngOnInit(): void {
     this.serverId = Number(this.route.snapshot.queryParamMap.get('serverId'))

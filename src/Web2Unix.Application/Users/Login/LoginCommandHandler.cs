@@ -28,7 +28,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
         var user = await _context.WebUsers.FirstOrDefaultAsync(x => x.Username == Username.Create(request.username));
         if (user is null || !await _passwordHasher.Verify(user.Id, request.password))
         {
-            throw new InvalidCredentialsException(); // TO DO: intercept it with middleware
+            throw new InvalidCredentialsException(); 
         }
 
         var role = await _context.WebUserRoles

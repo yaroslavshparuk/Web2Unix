@@ -22,18 +22,23 @@ public class UnixTerminal : IUnixTerminal
 
     public async Task<string> Connect(ConnectCommand connectCommand)
     {
+        if (_memoryCache.TryGetValue<DurableSshClient>((connectCommand.userId, connectCommand.serverId), out var cachedClientConnection))
+        {
+            return cachedClientConnection.Output;
+        }
+
         var user = await _context.WebUsers.FirstOrDefaultAsync(x => x.Id == connectCommand.userId);
         var server = await _context.Servers.FirstOrDefaultAsync(x => x.Id == connectCommand.serverId);
         var connectionInfo = new ConnectionInfo(server.IpAddress.Value, server.Port, user.Username.Value,
                 new PasswordAuthenticationMethod(user.Username.Value, user.Username.Value));
-        var clientConnection = new SshClientConnection(connectionInfo);
+        var clientConnection = new DurableSshClient(connectionInfo);
         _memoryCache.Set((connectCommand.userId, connectCommand.serverId), clientConnection);
         return await clientConnection.Open();
     }
 
     public void Disconnect(DisconnectCommand disconnectCommand)
     {
-        if (_memoryCache.TryGetValue<SshClientConnection>((disconnectCommand.userId, disconnectCommand.serverId), out var clientConnection))
+        if (_memoryCache.TryGetValue<DurableSshClient>((disconnectCommand.userId, disconnectCommand.serverId), out var clientConnection))
         {
             clientConnection.Dispose();
             _memoryCache.Remove((disconnectCommand.userId, disconnectCommand.serverId));
@@ -42,7 +47,7 @@ public class UnixTerminal : IUnixTerminal
 
     public async Task<string> Execute(CommandCommand commandRequest)
     {
-        if (_memoryCache.TryGetValue<SshClientConnection>((commandRequest.userId, commandRequest.serverId), out var clientConnection))
+        if (_memoryCache.TryGetValue<DurableSshClient>((commandRequest.userId, commandRequest.serverId), out var clientConnection))
         {
             return await clientConnection.Execute(commandRequest.commandValue);
         }

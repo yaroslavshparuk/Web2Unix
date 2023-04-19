@@ -6,7 +6,7 @@ public sealed class Username : ValueObject
 {
     private const int _maxLength = 32;
 
-    internal Username(string value)
+    private Username(string value)
     {
         Value = value;
     }
