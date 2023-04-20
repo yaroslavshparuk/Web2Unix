@@ -1,6 +1,4 @@
-﻿using Web2Unix.Domain.Primitives;
-
-namespace Web2Unix.Domain.Entities;
+﻿namespace Web2Unix.Domain.Entities;
 
 public class WebUserRole 
 {

@@ -24,6 +24,7 @@ public class DurableSshClient : IDisposable
     public async Task<string> Open()
     {
         _sshClient.Connect();
+        _sshClient.KeepAliveInterval = TimeSpan.FromMinutes(1);
         _shellStream = _sshClient.CreateShellStream("xterm", 80, 24, 800, 600, 1024);
         _reader = new StreamReader(_shellStream, Encoding.UTF8);
         return await ReadOutput();

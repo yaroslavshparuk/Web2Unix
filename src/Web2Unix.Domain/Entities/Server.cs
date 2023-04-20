@@ -31,6 +31,8 @@ public class Server : Entity
 
     public DateTimeOffset UpdatedAt { get; }
 
+    public ICollection<AllowedConnection> AllowedForUsers { get; set; }
+
     public static Server Create(
         int id,
         ServerName hostname,

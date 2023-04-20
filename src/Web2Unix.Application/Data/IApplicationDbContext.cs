@@ -13,5 +13,7 @@ public interface IApplicationDbContext
 
     DbSet<WebUser> WebUsers { get; set; }
 
+    DbSet<AllowedConnection> AllowedConnections { get; set; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

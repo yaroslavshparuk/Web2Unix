@@ -37,6 +37,8 @@ public class WebUser : Entity
 
     public ICollection<WebUserRole> WebUserRoles { get; set; }
 
+    public ICollection<AllowedConnection> AllowedConnections{ get; set; }
+
     public static WebUser Create(
         int id,
         Username username,

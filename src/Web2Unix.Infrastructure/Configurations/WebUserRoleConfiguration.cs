@@ -12,8 +12,6 @@ internal class WebUserRoleConfiguration : IEntityTypeConfiguration<WebUserRole>
         builder.HasKey(ur => new { ur.WebUserId, ur.WebRoleId });
         builder.Property(x => x.WebUserId);
         builder.Property(x => x.WebRoleId);
-        ////builder.HasOne(x => x.WebUser.WebRole)
-        ////    .WithOne(x => x.);
         builder.HasOne(ur => ur.WebUser)
             .WithMany(u => u.WebUserRoles)
             .HasForeignKey(ur => ur.WebUserId);

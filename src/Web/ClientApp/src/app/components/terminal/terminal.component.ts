@@ -22,7 +22,17 @@ export class TerminalComponent implements OnInit {
 
   ngOnInit(): void {
     this.serverId = Number(this.route.snapshot.queryParamMap.get('serverId'))
-    this.terminalService.connect(this.serverId).pipe(take(1)).subscribe(x => this.outputs.push(x));
+    this.terminalService.connect(this.serverId).
+      pipe(
+        take(1))
+      .subscribe({
+        next: (output) => {
+          this.outputs.push(output);
+        },
+        error: (e) => {
+          this.outputs.push('Cannot connect to this server ...');
+        },
+      });
   }
 
   sendConsoleInput() {
@@ -31,12 +41,20 @@ export class TerminalComponent implements OnInit {
       command.userId = this.userService.getCurrentUserId();
       command.serverId = this.serverId;
       command.commandValue = this.consoleInput;
-      this.terminalService.sendCommand(command).pipe(take(1)).subscribe(x => this.outputs.push(x));
+      this.terminalService.sendCommand(command).pipe(take(1))
+      .subscribe({
+        next: (output) => {
+          this.outputs.push(output);
+        },
+        error: (e) => {
+          this.outputs.push('Cannot connect to this server ...');
+        },
+      });
       this.consoleInput = '';
     }
   }
 
-  close(){
+  close() {
     this.internalClose();
     this.router.navigate(['/servers']);
   }

@@ -14,6 +14,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<WebUser> WebUsers { get; set; }
 
+    public DbSet<AllowedConnection> AllowedConnections { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseSqlServer("Server=localhost;Database=web2unix;Trusted_Connection=True;TrustServerCertificate=Yes");
